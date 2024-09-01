@@ -28,19 +28,19 @@ function TemperatureAndDetails({ weather, unit }) {
   const sunrise = new Date(weather.sys?.sunrise * 1000).toLocaleTimeString();
 
   return (
-    <div>
+    <div className=" max-w-screen ">
       {/* Weather description text, centered at the top */}
       <div className="flex items-center justify-center py-2 text-xl text-cyan-300">
         <Para text={weatherDescription} />
       </div>
 
       {/* Main weather details: icon, temperature, and other data */}
-      <div className="flex flex-row items-center justify-between text-white py-3">
+      <div className="flex flex-row items-center justify-evenly text-white py-3">
         {/* Weather icon */}
 
         <Img weatherIcon={weatherIcon} />
         {/* Temperature text */}
-        <Para className="text-5xl ml-12" text={`${Math.round(temp)}°`} />
+        <Para className="text-6xl ml-12" text={`${Math.round(temp)}°`} />
         <div className="flex flex-col space-y-2">
           {/* Weather details like real feel, humidity, and wind speed */}
           <WeatherDetail
@@ -65,7 +65,7 @@ function TemperatureAndDetails({ weather, unit }) {
       <div className="flex flex-row justify-center items-center space-x-2 text-white text-sm py-3">
         <UilSun />
         <WeatherDetail
-          className="font-light flex"
+          className="font-light flex "
           label="Sunrise:"
           value={sunrise}
         />
@@ -103,7 +103,7 @@ function WeatherDetail({
   icon,
   label,
   value,
-  className = "font-light text-sm",
+  className = "font-light text-md",
 }) {
   return (
     <div className={`flex flex-row ${className} items-center justify-center`}>

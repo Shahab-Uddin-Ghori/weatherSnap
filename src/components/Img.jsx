@@ -5,7 +5,7 @@ function Img({ weatherIcon }) {
     <img
       src={`https://openweathermap.org/img/wn/${weatherIcon}@2x.png`}
       alt="icon"
-      className="w-20"
+      className="max-w-20"
     />
   );
 }

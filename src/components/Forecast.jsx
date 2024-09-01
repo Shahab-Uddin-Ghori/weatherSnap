@@ -39,7 +39,7 @@ function Forecast({ title, city, forecastType, units }) {
   return (
     <div>
       {/* Title of the forecast section */}
-      <div className="flex items-center justify-start mt-4">
+      <div className="flex items-center justify-start mt-2">
         <Para text={title} className="text-white font-medium uppercase" />
       </div>
       <hr className="my-2" />

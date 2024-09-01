@@ -73,6 +73,7 @@ function App() {
         toast: true,
         position: "top-end",
         showConfirmButton: false,
+        backdrop: true,
         timer: 3000,
         timerProgressBar: true,
         didOpen: (toast) => {
@@ -100,11 +101,10 @@ function App() {
   // This function will be passed to ButtonTop to update the city when clicked
   const handleCityClick = (selectedCity) => {
     setCity(selectedCity);
-    setInputCity("");
   };
 
   return (
-    <div className="mx-auto max-w-screen-md mt-5 py-5 px-16 bg-gradient-to-br from-cyan-700 to-blue-700 h-fit shadow-xl shadow-gray-400">
+    <div className="mx-auto w-screen py-5 px-16 bg-gradient-to-br from-cyan-700 to-blue-700 h-screen shadow-xl shadow-gray-400">
       <ButtonTop onCityClick={handleCityClick} setCity={setCity} />{" "}
       {/* Passing the function to ButtonTop */}
       <Inputs
