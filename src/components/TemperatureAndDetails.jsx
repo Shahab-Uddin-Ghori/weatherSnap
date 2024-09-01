@@ -8,81 +8,117 @@ import {
   UilSunset,
   UilSun,
 } from "@iconscout/react-unicons";
+import Para from "./Para";
+import Span from "./Span";
+import Img from "./Img";
 
-function TemperatureAndDetails({ weather }) {
+/**
+ * This component, `TemperatureAndDetails`, shows the weather details.
+ * It uses smaller reusable components (`Para` and `Span`) to keep the code clean.
+ */
+function TemperatureAndDetails({ weather, unit }) {
+  // Get weather data or show "Loading" if the data is not available yet.
+  const temp = weather.main?.temp || "Loading";
+  const weatherDescription = weather.weather?.[0]?.description || "Loading...";
+  const weatherIcon = weather.weather?.[0]?.icon;
+  const feelLike = weather.main?.feels_like || "Loading";
+  const humidity = weather.main?.humidity || "Loading";
+  const wind = weather.wind?.speed || "Loading";
+  const sunset = new Date(weather.sys?.sunset * 1000).toLocaleTimeString();
+  const sunrise = new Date(weather.sys?.sunrise * 1000).toLocaleTimeString();
+
   return (
     <div>
+      {/* Weather description text, centered at the top */}
       <div className="flex items-center justify-center py-2 text-xl text-cyan-300">
-        <p>{weather.weather?.[0]?.description || "Loading..."}</p>
+        <Para text={weatherDescription} />
       </div>
+
+      {/* Main weather details: icon, temperature, and other data */}
       <div className="flex flex-row items-center justify-between text-white py-3">
-        <img
-          src={`https://openweathermap.org/img/wn/${weather.weather?.[0]?.icon}@2x.png`}
-          alt="icon"
-          className="w-20 "
-        />
-        <p className="text-5xl">
-          {Math.round(weather.main?.temp) || "Loading"}°
-        </p>
+        {/* Weather icon */}
+
+        <Img weatherIcon={weatherIcon} />
+        {/* Temperature text */}
+        <Para className="text-5xl ml-12" text={`${Math.round(temp)}°`} />
         <div className="flex flex-col space-y-2">
-          <div className="flex flex-row font-light text-sm items-center justify-center">
-            <UilTemperatureHalf size={18} className="mr-1" />
-            Real feel:
-            <span className="font-medium ml-1">
-              {weather.main?.feels_like || "Loading"}°
-            </span>
-          </div>
-
-          <div className="flex flex-row font-light text-sm items-center justify-center">
-            <UilTear size={18} className="mr-1" />
-            Humidity:
-            <span className="font-medium ml-1">
-              {weather.main?.humidity || "Loading"}%
-            </span>
-          </div>
-
-          <div className="flex flex-row font-light text-sm items-center justify-center">
-            <UilWind size={18} className="mr-1" />
-            Wind:
-            <span className="font-medium ml-1">
-              {weather.wind?.speed || "Loading"} km/h
-            </span>
-          </div>
+          {/* Weather details like real feel, humidity, and wind speed */}
+          <WeatherDetail
+            icon={<UilTemperatureHalf size={18} className="mr-1" />}
+            label="Real feel:"
+            value={`${feelLike}°`}
+          />
+          <WeatherDetail
+            icon={<UilTear size={18} className="mr-1" />}
+            label="Humidity:"
+            value={`${humidity}%`}
+          />
+          <WeatherDetail
+            icon={<UilWind size={18} className="mr-1" />}
+            label="Wind:"
+            value={`${Math.round(wind * 5 - 2)} km/h`}
+          />
         </div>
       </div>
 
+      {/* Extra details: sunrise, sunset, high, and low temperatures */}
       <div className="flex flex-row justify-center items-center space-x-2 text-white text-sm py-3">
         <UilSun />
-        <p className="font-light flex">
-          Rise: <span className="font-medium ml-1 ">06:45 AM</span>
-        </p>
-        <p className="font-light flex">|</p>
-
+        <WeatherDetail
+          className="font-light flex"
+          label="Sunrise:"
+          value={sunrise}
+        />
+        <Divider />
         <UilSunset />
-        <p className="font-light flex">
-          Set: <span className="font-medium ml-1">07:45 PM</span>
-        </p>
-        <p className="font-light flex">|</p>
-
+        <WeatherDetail
+          className="font-light flex"
+          label="Sunset:"
+          value={sunset}
+        />
+        <Divider />
         <UilArrowUp />
-        <p className="font-light flex">
-          High:
-          <span className="font-medium ml-1">
-            {weather.main?.temp_max || "loading"}
-          </span>
-        </p>
-        <p className="font-light">|</p>
-
+        <WeatherDetail
+          className="font-light flex"
+          label="High:"
+          value={`${weather.main?.temp_max || "loading"}°`}
+        />
+        <Divider />
         <UilArrowDown />
-        <p className="font-light flex">
-          Low:
-          <span className="font-medium ml-1">
-            {weather.main?.temp_max || "loading"}
-          </span>
-        </p>
+        <WeatherDetail
+          className="font-light flex"
+          label="Low:"
+          value={`${weather.main?.temp_min || "loading"}°`}
+        />
       </div>
     </div>
   );
+}
+
+/**
+ * The `WeatherDetail` component shows one piece of weather data with an icon.
+ * It takes an icon, a label (like "Humidity:"), and a value (like "50%").
+ */
+function WeatherDetail({
+  icon,
+  label,
+  value,
+  className = "font-light text-sm",
+}) {
+  return (
+    <div className={`flex flex-row ${className} items-center justify-center`}>
+      {icon} {/* The icon for the weather detail */}
+      {label} {/* The label for the weather detail */}
+      <Span text={value} className="font-medium ml-1" /> {/* The value */}
+    </div>
+  );
+}
+
+/**
+ * The `Divider` component creates a simple "|" line to separate different weather details.
+ */
+function Divider() {
+  return <Para className="font-light flex" text="|" />;
 }
 
 export default TemperatureAndDetails;
