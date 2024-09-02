@@ -104,7 +104,7 @@ function App() {
   };
 
   return (
-    <div className="mx-auto w-screen py-5 px-16 bg-gradient-to-br from-cyan-700 to-blue-700 h-screen shadow-xl shadow-gray-400">
+    <div className="mx-auto max-w-screen py-5 px-16 bg-gradient-to-br from-cyan-700 to-blue-700 min-h-screen shadow-xl shadow-gray-400">
       <ButtonTop onCityClick={handleCityClick} setCity={setCity} />{" "}
       {/* Passing the function to ButtonTop */}
       <Inputs
